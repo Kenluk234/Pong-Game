@@ -20,9 +20,13 @@ def ball_animation():
 
 def ball_restart():
     global ball_speed_x, ball_speed_y, opponent_speed, pbcollide, obcollide
+    pygame.time.wait(1000)
     ball.center = (screen_width/2, screen_height/2)
     ball_speed_x *= random.choice((-1, 1))
     ball_speed_y *= random.choice((-1, 1))
+    player.y = screen_height/2
+    opponent.y = screen_height/2
+
     pbcollide = 0
     obcollide = 0
 
@@ -43,8 +47,8 @@ def opponent_animation():
         opponent.y == 0
     elif opponent.top > ball.y:
         opponent.top -= opponent_speed
-    elif opponent.bottom < ball.y:
-        opponent.bottom += opponent_speed
+    elif opponent.centery < ball.y:
+        opponent.centery += opponent_speed
     elif opponent.bottom <= 0:
         opponent.bottom = 0
     elif opponent.top >= screen_height:
@@ -59,8 +63,7 @@ def score():
         else:
             opponent_score += 0
             screen.blit(text, (screen_width / 2, 20))
-            pygame.time.wait(2000)
-
+            ball_restart()
 
     elif ball.right >= screen_width:
         if pbcollide >= 1:
@@ -69,7 +72,7 @@ def score():
         else:
             player_score += 0
             screen.blit(text, (screen_width / 2, 20))
-            pygame.time.wait(2000)
+            ball_restart()
 
 def collision_count():
     global obcollide, pbcollide
@@ -77,6 +80,7 @@ def collision_count():
         obcollide += 1
     if ball.colliderect(player):
         pbcollide += 1
+
 
 # Setup
 pygame.init()
@@ -90,7 +94,8 @@ pygame.display.set_caption('Game')
 
 # Creating font
 font = pygame.font.Font(None, 36)
-text = font.render("Unfair start detected, the opposing player is protected from a goal.", True, (100, 255, 100))
+text = font.render("Unfair start detected, the opposing player is protected from a goal.", True, GREEN)
+
 
 # Rectangles
 ball = pygame.Rect(screen_width/2 - 15, screen_height/2 - 15, 30, 30)
@@ -98,7 +103,6 @@ opponent = pygame.Rect(screen_width - 20, screen_height/2 - 70, 10, 140)
 player = pygame.Rect(10, screen_height/2 - 70, 10, 140)
 
 bg_color = pygame.Color('grey12')
-grn = (150, 255, 150)
 
 ball_speed_x = 7 * random.choice((-1,1))
 ball_speed_y = 7 * random.choice((-1,1))
@@ -134,15 +138,15 @@ while True:
     opponent_animation()
     score()
     collision_count()
-    player_score_text = font.render(str(player_score), True, (100, 255, 100))
-    opponent_score_text = font.render(str(opponent_score), True, (100, 255, 100))
+    player_score_text = font.render(str(player_score), True, GREEN)
+    opponent_score_text = font.render(str(opponent_score), True, GREEN)
 
     # Visuals
     screen.fill(bg_color)
-    pygame.draw.rect(screen, grn, opponent)
-    pygame.draw.rect(screen, grn, player)
-    pygame.draw.ellipse(screen, grn, ball)
-    pygame.draw.aaline(screen, grn, (screen_width/2, 0), (screen_width/2, screen_height))
+    pygame.draw.rect(screen, GREEN, opponent)
+    pygame.draw.rect(screen, GREEN, player)
+    pygame.draw.ellipse(screen, GREEN, ball)
+    pygame.draw.aaline(screen, GREEN, (screen_width/2, 0), (screen_width/2, screen_height))
     screen.blit(player_score_text, (400, 20))
     screen.blit(opponent_score_text, (720, 20))
 
