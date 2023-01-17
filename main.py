@@ -25,8 +25,8 @@ def ball_animation():
 def ball_restart():
     global ball_speed_x, ball_speed_y, opponent_speed, pbcollide, obcollide, speedlist
     # Ball movement randomizer factor
-    speedlistx = [-1, -0.75, 0.75, 1]
-    speedlisty = [-1.5, -1.25, -1, -0.75, 0.75, 1, 1.25, 1.5]
+    speedlistx = [-1, 1]
+    speedlisty = [-1.5, -1.25, 1.25, 1.5]
     pygame.time.wait(1000)
 
     # Ball position reset
@@ -72,9 +72,9 @@ def player_animation():
 
 def opponent_animation():
     # Opponent's AI
-    if opponent.centery > ball.centery:
-        opponent.centery -= opponent_speed
-    elif opponent.centery < ball.centery:
+    if opponent.top > ball.centery:
+        opponent.top -= opponent_speed
+    elif opponent.bottom < ball.centery:
         opponent.bottom += opponent_speed
 
     # Opponent's paddle stops when paddle reaches edge
@@ -119,16 +119,20 @@ def checkfinal():
         playerwins = font.render("You win!", True, GREEN)
         screen.blit(playerwins, ((screen_width/2), (screen_height/2)))
         pygame.display.update()
+        pygame.time.wait(1000)
         if state == "game_screen":
             state = "main_menu"
+        player_score = 0
 
     # If opponent gets 10 points, player gets defeat (opponent's victory) message
     elif opponent_score >= 10:
         opponentwins = font.render("Opponent wins! You lose!", True, GREEN)
         screen.blit(opponentwins, ((screen_width / 2), (screen_height / 2)))
         pygame.display.update()
+        pygame.time.wait(1000)
         if state == "game_screen":
             state = "main_menu"
+        opponent_score = 0
 
 # Setup
 pygame.init()
@@ -186,6 +190,7 @@ while running:
 
                     # If A key pressed, game starts
                     if event.key == pygame.K_a:
+                        pygame.time.wait(1000)
                         if state == "main_menu":
                             state = "game_screen"
                     # If X key pressed, game starts
