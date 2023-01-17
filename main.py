@@ -76,10 +76,10 @@ def opponent_animation():
         opponent.bottom += opponent_speed
 
     # Opponent's paddle stops when paddle reaches edge
-    elif opponent.bottom <= 0:
-        opponent.bottom = 0
-    elif opponent.top >= screen_height:
-        opponent.top = screen_height
+    elif opponent.top <= 0:
+        opponent.top = 0
+    elif opponent.bottom >= screen_height:
+        opponent.bottom = screen_height
 
 def score():
     global player_score, opponent_score
