@@ -1,8 +1,6 @@
 import pygame, sys, random, threading, time
 from pygame.locals import *
 
-player_score = 0
-opponent_score = 0
 # Color Scheme
 GREEN = (150, 255, 150)
 
